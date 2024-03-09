@@ -1,7 +1,7 @@
 import { SubscribeMessage, WebSocketGateway, OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect } from '@nestjs/websockets';
 import game from './game'
 
-@WebSocketGateway(81)
+@WebSocketGateway(81, { cors: true})
 export class AppGateway
   implements OnGatewayConnection, OnGatewayInit, OnGatewayDisconnect
 {
@@ -28,5 +28,6 @@ export class AppGateway
     console.log(
       'There are ' + Object.keys(game.users).length + ' players now.',
     );
+    client.emit('game-state', game.getGameState(client))
   }
 }

@@ -57,7 +57,6 @@ class Game {
         ],*/
       },
     };
-    console.log('users nside game: '+Object.keys(this.users).length)
   }
   getGameState(id: any) {
     let others = { ...this.users };
