@@ -1,9 +1,16 @@
 import { SubscribeMessage, WebSocketGateway, OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect } from '@nestjs/websockets';
+import game from './game'
 
 @WebSocketGateway(81)
-export class AppGateway implements OnGatewayConnection, OnGatewayInit, OnGatewayDisconnect {
+export class AppGateway
+  implements OnGatewayConnection, OnGatewayInit, OnGatewayDisconnect
+{
   handleDisconnect(client: any) {
-    console.log('somepony just disconnected');
+    console.log('somepony just disconnected.');
+    delete game.users[client]
+    console.log(
+      'There are ' + Object.keys(game.users).length + ' players now.',
+    );
   }
   afterInit(server: any) {
     console.log('initialized, alive.');
@@ -11,13 +18,15 @@ export class AppGateway implements OnGatewayConnection, OnGatewayInit, OnGateway
 
   @SubscribeMessage('message')
   handleMessage(client: any, payload: any): string {
-    console.log("payload: "+payload);
-    console.log(client)
-    client.emit('aaa','bbb')
+    console.log('payload: ' + payload);
     return 'Hello world!';
   }
 
-  async handleConnection() {
-    console.log('somepony just connected');
+  async handleConnection(client: any) {
+    console.log('Somepony just connected.')
+    game.regNewUser(client)
+    console.log(
+      'There are ' + Object.keys(game.users).length + ' players now.',
+    );
   }
 }

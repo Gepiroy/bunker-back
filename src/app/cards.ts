@@ -1,4 +1,4 @@
-export = {
+const cards = {
   random(array: any[]): any{
     return Math.floor(Math.random() * array.length);
   },
@@ -86,3 +86,6 @@ export = {
   person_orientations: ["Гетеросексуал","Гомосексуал","Бисексуал","Асексуал"],
   person_nations: ['Неприметный','Немец','Еврей','Араб','Чёрный','Кавказец'],
 };
+
+
+export default cards

@@ -1,11 +1,11 @@
 import cards from './cards';
 
-export class Game {
+class Game {
   game_state = {
     apocalypse: cards.random(cards.apocalypses),
     bunker_modificators: [cards.random(cards.bunker_modificators)],
   };
-  users = [];
+  public users = {};
   regNewUser(id: any) {
     this.users[id] = {
       person_gender: cards.random(cards.person_genders),
@@ -57,18 +57,20 @@ export class Game {
         ],*/
       },
     };
+    console.log('users nside game: '+Object.keys(this.users).length)
   }
   getGameState(id: any) {
     let others = { ...this.users };
     delete others[id];
-    others.forEach((user) => {
+    for(let user_id in others){
+      let user = others[user_id]
       user.cards.forEach((cards_of_type) => {
         for (let card_id in cards_of_type) {
           let card = cards_of_type[card_id];
           if (!card.show) delete others[user].cards[cards_of_type][card_id];
         }
       });
-    });
+    };
 
     return {
       game_state: this.game_state,
@@ -77,3 +79,7 @@ export class Game {
     };
   }
 }
+
+const instance = new Game();
+
+export default instance
