@@ -1,6 +1,6 @@
 const cards = {
   random(array: any[]): any{
-    return Math.floor(Math.random() * array.length);
+    return array[Math.floor(Math.random() * array.length)];
   },
   apocalypses: [
     {
