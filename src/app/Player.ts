@@ -1,5 +1,6 @@
 import game from './game';
 import cards from './cards'
+import Card from './Card';
 export default class Player {
 
   person_gender = cards.random(cards.person_genders)
@@ -15,10 +16,14 @@ export default class Player {
   fillCards(){
     let list = ['professions', 'hobbies', 'healths', 'backpacks', 'personal_facts', 'facts']
     list.forEach(name => {
-      this.cards[name] = [{
-        card: cards.random(cards[name]),
-        show: false
-      }]
+      this.cards[name] = [new Card(
+        cards.random(cards[name])
+      )]
     });
   }
+
+  showCard(card: Card){
+    card.show = true
+  }
+
 }
