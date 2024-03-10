@@ -9,7 +9,7 @@ class Game {
   public players = {};
   public sockets = {};
   regPlayer(client: any) {
-    this.players[client.id] = new Player();
+    this.players[client.id] = new Player(client.id);
     this.sockets[client.id] = client;
     this.updateGameStates();
   }
