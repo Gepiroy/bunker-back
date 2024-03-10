@@ -22,7 +22,7 @@ export class AppGateway
     const { sockets } = this.io.sockets;
     console.log('Somepony (id='+client.id+') just connected. Everything: ')
     console.log(Object.keys(client))
-    game.regNewUser(client);
+    game.regPlayer(client);
     console.log(
       'There are ' + Object.keys(game.players).length + ' players now.',
     );
@@ -32,7 +32,7 @@ export class AppGateway
   }
   async handleDisconnect(client: any) {
     console.log('somepony just disconnected.');
-    game.unregUser(client.id)
+    game.unregPlayer(client.id)
     console.log(
       'There are ' + Object.keys(game.players).length + ' players now.',
     );
