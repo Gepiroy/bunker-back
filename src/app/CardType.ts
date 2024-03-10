@@ -1,4 +1,5 @@
 enum CardType {
+  Personality,
   Profession,
   Hobby,
   Health,
