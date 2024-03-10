@@ -6,8 +6,8 @@ class Game {
     bunker_modificators: [cards.random(cards.bunker_modificators)],
   };
   public users = {};
-  regNewUser(id: any) {
-    this.users[id] = {
+  regNewUser(client: any) {
+    this.users[client.id] = {
       person_gender: cards.random(cards.person_genders),
       person_age: Math.floor(Math.random() * 90 + 14),
       person_orientation: cards.random(cards.person_orientations),
@@ -58,22 +58,23 @@ class Game {
       },
     };
   }
-  getGameState(id: any) {
+  getGameState(key: any) {
     let others = { ...this.users };
-    delete others[id];
-    for(let user_id in others){
-      let user = others[user_id]
-      user.cards.forEach((cards_of_type) => {
+    delete others[key];
+    for(let user_key in others){
+      let user = others[user_key]
+      for(let type_of_cards in user.cards){
+        let cards_of_type = user.cards[type_of_cards]
         for (let card_id in cards_of_type) {
           let card = cards_of_type[card_id];
-          if (!card.show) delete others[user].cards[cards_of_type][card_id];
+          if (!card.show) delete others[user_key].cards[type_of_cards][card_id];
         }
-      });
+      }
     };
 
     return {
       game_state: this.game_state,
-      you: this.users[id],
+      you: this.users[key],
       others: others,
     };
   }
