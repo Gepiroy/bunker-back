@@ -67,7 +67,7 @@ class Game {
     this.updateGameStates();
   }
   getGameState(id: string) {
-    let others = { ...this.players };
+    let others = JSON.parse(JSON.stringify(this.players));
     delete others[id];
     for(let user_key in others){
       let user = others[user_key]
