@@ -1,13 +1,14 @@
 import cards from './cards';
 
 class Game {
-  game_state = {
+  private game_state = {
     apocalypse: cards.random(cards.apocalypses),
     bunker_modificators: [cards.random(cards.bunker_modificators)],
   };
-  public users = {};
+  public players = {};
+  public sockets = {};
   regNewUser(client: any) {
-    this.users[client.id] = {
+    this.players[client.id] = {
       person_gender: cards.random(cards.person_genders),
       person_age: Math.floor(Math.random() * 90 + 14),
       person_orientation: cards.random(cards.person_orientations),
@@ -57,26 +58,42 @@ class Game {
         ],*/
       },
     };
+    this.sockets[client.id] = client
+    this.updateGameStates();
   }
-  getGameState(key: any) {
-    let others = { ...this.users };
-    delete others[key];
+  unregUser(id: string){
+    delete this.players[id]
+    delete this.sockets[id]
+    this.updateGameStates();
+  }
+  getGameState(id: string) {
+    let others = { ...this.players };
+    delete others[id];
     for(let user_key in others){
       let user = others[user_key]
       for(let type_of_cards in user.cards){
         let cards_of_type = user.cards[type_of_cards]
         for (let card_id in cards_of_type) {
           let card = cards_of_type[card_id];
-          if (!card.show) delete others[user_key].cards[type_of_cards][card_id];
+          if (!card.show) others[user_key].cards[type_of_cards].splice([card_id], 1);
         }
       }
     };
 
     return {
       game_state: this.game_state,
-      you: this.users[key],
+      you: this.players[id],
       others: others,
     };
+  }
+
+  public updateGameStates(){
+    for(let id in this.sockets){
+      this.sockets[id].emit(
+        'game-state',
+         this.getGameState(id),
+      );
+    }
   }
 }
 
