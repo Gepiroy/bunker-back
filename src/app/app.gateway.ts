@@ -12,22 +12,18 @@ export class AppGateway
     console.log('initialized, alive.');
   }
 
-  @SubscribeMessage('message')
-  handleMessage(client: any, payload: any): string {
-    console.log('payload: ' + payload);
-    return 'Hello world!';
+  @SubscribeMessage('shownCard')
+  handleMessage(client: any, payload: any) {
+    console.log('shownCard payload: ' + payload);
+    game.showCard(payload.card_id)
   }
 
   async handleConnection(client: any) {
     const { sockets } = this.io.sockets;
-    console.log('Somepony (id='+client.id+') just connected. Everything: ')
-    console.log(Object.keys(client))
+    console.log('Somepony (id='+client.id+') just connected.')
     game.regPlayer(client);
     console.log(
       'There are ' + Object.keys(game.players).length + ' players now.',
-    );
-    console.log(
-      'There are ' + sockets.size + ' sockets now.',
     );
   }
   async handleDisconnect(client: any) {

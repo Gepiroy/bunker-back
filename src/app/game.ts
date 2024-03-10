@@ -1,10 +1,13 @@
+import Card from './Card';
 import cards from './cards';
 import Player from './Player';
 
 class Game {
   private game_state = {
-    apocalypse: cards.random(cards.apocalypses),
-    bunker_modificators: [cards.random(cards.bunker_modificators)],
+    apocalypse: new Card(cards.random(cards.apocalypses), true),
+    bunker_modificators: [
+      new Card(cards.random(cards.bunker_modificators), true),
+    ],
   };
   public players = {};
   public sockets = {};
@@ -44,6 +47,10 @@ class Game {
     for (let id in this.sockets) {
       this.sockets[id].emit('game-state', this.getGameState(id));
     }
+  }
+  public showCard(card_id: number) {
+    Card.getCard(card_id).show = true;
+    this.updateGameStates();
   }
 }
 
