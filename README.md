@@ -1,3 +1,6 @@
+# Развёртка
+npm run start - по умолчанию будет хостить с открытого адреса (0.0.0.0:81 - адрес socket.io)
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
 </p>
