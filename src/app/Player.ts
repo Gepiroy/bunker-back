@@ -6,10 +6,6 @@ export default class Player {
   public name: string;
   private static index = 0;
 
-  person_gender = cards.random(cards.person_genders);
-  person_age = Math.floor(Math.random() * 90 + 14);
-  person_orientation = cards.random(cards.person_orientations);
-  person_nation = cards.random(cards.person_nations);
   cards = {};
 
   constructor(id: string) {
@@ -19,6 +15,7 @@ export default class Player {
   }
 
   fillCards() {
+    this.cards['personality'] = [cards.genRandPersonCard()]
     let list = [
       'professions',
       'hobbies',

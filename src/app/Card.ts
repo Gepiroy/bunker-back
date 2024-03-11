@@ -6,12 +6,18 @@ export default class Card {
   public id: number;
   scheme: CardScheme;
   show: boolean;
+  private extra: any = null;
 
   constructor(scheme: CardScheme, show: boolean = false) {
     this.scheme = scheme;
     this.show = show;
     this.id = Card.mid++;
     Card.cards.push(this);
+  }
+
+  public setExtra(extra: any): Card{
+    this.extra = extra;
+    return this;
   }
 
   public static getCard(card_id: number): Card {
