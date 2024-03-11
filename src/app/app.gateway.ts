@@ -12,15 +12,16 @@ export class AppGateway
     console.log('initialized, alive.');
   }
 
-  @SubscribeMessage('shownCard')
-  handleShownCard(client: any, payload: any) {
-    console.log('shownCard payload: ' + payload);
-    game.showCard(client.id, payload.card_id);
-  }
-
-  @SubscribeMessage('end-show-card')
-  handleShowCardEnd(client: any, payload: any) {
-    game.endShowCard();
+  @SubscribeMessage('demonstration')
+  handleDemonstration(client: any, payload: any) {
+    console.log('demonstration payload: ' + payload);
+    if(!payload){
+      game.demonstrate(null, null, null);
+      return;
+    }
+    let type = payload.type;
+    delete payload.type;
+    game.demonstrate(client.id, type, payload);
   }
 
   @SubscribeMessage('nickChanged')
