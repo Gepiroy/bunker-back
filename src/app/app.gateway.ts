@@ -15,7 +15,12 @@ export class AppGateway
   @SubscribeMessage('shownCard')
   handleShownCard(client: any, payload: any) {
     console.log('shownCard payload: ' + payload);
-    game.showCard(payload.card_id);
+    game.showCard(client.id, payload.card_id);
+  }
+
+  @SubscribeMessage('end-show-card')
+  handleShowCardEnd(client: any, payload: any) {
+    game.endShowCard();
   }
 
   @SubscribeMessage('nickChanged')

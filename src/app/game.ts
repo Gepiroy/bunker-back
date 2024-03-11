@@ -43,17 +43,29 @@ class Game {
     };
   }
 
-  public updateGameStates() {
+  public emitToEveryone(message: string, content: any | ((id: string) => any)) {
     for (let id in this.sockets) {
-      this.sockets[id].emit('game-state', this.getGameState(id));
+      this.sockets[id].emit(
+        message,
+        typeof content === 'function' ? content(id) : content,
+      );
     }
   }
-  public showCard(card_id: number) {
-    Card.getCard(card_id).show = true;
+
+  public updateGameStates() {
+    this.emitToEveryone('game-state', (id) => this.getGameState(id));
+  }
+  public showCard(by: string, card_id: number) {
+    let card = Card.getCard(card_id);
+    card.show = true;
     this.updateGameStates();
+    this.emitToEveryone('card-shown', { by: by, cardData: card });
+  }
+  public endShowCard() {
+    this.emitToEveryone('card-show-ended', '');
   }
   public changeName(player_id: string, new_name: string) {
-    this.players[player_id].name = new_name
+    this.players[player_id].name = new_name;
     this.updateGameStates();
   }
 }
