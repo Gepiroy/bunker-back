@@ -23,7 +23,7 @@ class Game {
   }
   getGameState(id: string) {
     let others = JSON.parse(JSON.stringify(this.players));
-    delete others[id];
+    //delete others[id]; //Удалять себя... Не нужно.
     for (let user_key in others) {
       let user = others[user_key];
       for (let type_of_cards in user.cards) {
@@ -50,6 +50,10 @@ class Game {
   }
   public showCard(card_id: number) {
     Card.getCard(card_id).show = true;
+    this.updateGameStates();
+  }
+  public changeName(player_id: string, new_name: string) {
+    this.players[player_id].name = new_name
     this.updateGameStates();
   }
 }

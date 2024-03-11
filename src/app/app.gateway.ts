@@ -2,7 +2,7 @@ import { SubscribeMessage, WebSocketGateway, WebSocketServer, OnGatewayInit, OnG
 import game from './game'
 import {Server} from 'socket.io'
 
-@WebSocketGateway(81, { cors: true})
+@WebSocketGateway(81, { cors: true })
 export class AppGateway
   implements OnGatewayConnection, OnGatewayInit, OnGatewayDisconnect
 {
@@ -13,14 +13,20 @@ export class AppGateway
   }
 
   @SubscribeMessage('shownCard')
-  handleMessage(client: any, payload: any) {
+  handleShownCard(client: any, payload: any) {
     console.log('shownCard payload: ' + payload);
-    game.showCard(payload.card_id)
+    game.showCard(payload.card_id);
+  }
+
+  @SubscribeMessage('nickChanged')
+  handleNickChanged(client: any, payload: any) {
+    console.log('nickChanged payload: ' + payload);
+    game.changeName(client.id, payload.new_name);
   }
 
   async handleConnection(client: any) {
     const { sockets } = this.io.sockets;
-    console.log('Somepony (id='+client.id+') just connected.')
+    console.log('Somepony (id=' + client.id + ') just connected.');
     game.regPlayer(client);
     console.log(
       'There are ' + Object.keys(game.players).length + ' players now.',
@@ -28,7 +34,7 @@ export class AppGateway
   }
   async handleDisconnect(client: any) {
     console.log('somepony just disconnected.');
-    game.unregPlayer(client.id)
+    game.unregPlayer(client.id);
     console.log(
       'There are ' + Object.keys(game.players).length + ' players now.',
     );
