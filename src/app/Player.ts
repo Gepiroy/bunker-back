@@ -1,12 +1,11 @@
 import games from './games';
 import Card from './cards/Card';
-import Cards from './cards/Cards';
 export default class Player {
   private id: string;
   public name: string;
   private static index = 0;
 
-  cards = new Cards();
+  cards: Card[] = [];
 
   constructor(id: string) {
     this.id = id;
@@ -31,8 +30,13 @@ export default class Player {
   }
 
   formData(isYou: boolean){
-    return {
-
+    if(isYou) return this;
+    else {
+      return {
+        id: this.id,
+        name: this.name,
+        cards: this.cards.filter(card=>card.show),
+      }
     }
   }
 

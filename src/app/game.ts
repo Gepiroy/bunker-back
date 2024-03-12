@@ -5,6 +5,7 @@ import world from '@/app/worlds/worldDefault';
 export default class Game {
   public world = world;
   public cards: Card[] = [];
+
   private game_state = {
     apocalypse: Card.createCard(
       this,
@@ -34,25 +35,19 @@ export default class Game {
   unregPlayer(id: string) {
     delete this.players[id];
     delete this.sockets[id];
+    if(this.game_state.demonstration.by == id)this.demonstrate(null, null, null, true);
     this.updateGameStates();
   }
-  getGameState(player_id: string) {
-    let others = JSON.parse(JSON.stringify(this.players));
-    for (let other_player_id in others) {
-      let other_player = others[other_player_id];
-      for (let type_of_cards in other_player.cards) {
-        let cards_of_type = other_player.cards[type_of_cards];
-        for (let card_id in cards_of_type) {
-          let card = cards_of_type[card_id];
-          if (!card.show)
-            others[other_player_id].cards[type_of_cards].splice([card_id], 1);
-        }
-      }
+  getGameState(your_id: string) {
+    let others = {};
+    for (let player_id in this.players) {
+      let player = this.players[player_id] as Player;
+      others[player_id] = player.formData(false);
     }
 
     return {
       game_state: this.game_state,
-      you: this.players[player_id],
+      you: this.players[your_id].formData(true),
       others: others,
     };
   }
@@ -69,15 +64,22 @@ export default class Game {
   public updateGameStates() {
     this.emitToEveryone('game-state', (id) => this.getGameState(id));
   }
-  public demonstrate(by: string | null, type: string | null, extra: any) {
+  public demonstrate(by: string | null, type: string | null, extra: any, silent:boolean = false) {
     this.game_state.demonstration.type = type;
     this.game_state.demonstration.by = by;
+
+    if (type == 'show-card') {
+      extra.cardData = this.cards[extra.card_id];
+    }
+
     this.game_state.demonstration.extra = extra;
+
     console.log(this.game_state.demonstration);
-    this.emitToEveryone('demonstration', this.game_state.demonstration);
+
+    if(!silent)this.emitToEveryone('demonstration', this.game_state.demonstration);
   }
   public showCard(by: string, card_id: number) {
-    let card = Card.getCard(card_id);
+    let card = this.cards[card_id];
     card.show = true;
     this.updateGameStates();
     this.emitToEveryone('card-shown', { by: by, cardData: card });
