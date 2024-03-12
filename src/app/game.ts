@@ -1,3 +1,4 @@
+import { generatePersonImagePrompt } from './ai/prompt';
 import Card from './cards/Card';
 import Player from './Player';
 import world from '@/app/worlds/worldDefault';
@@ -28,7 +29,9 @@ export default class Game {
   public players = {};
   public sockets = {};
   regPlayer(client: any) {
-    this.players[client.id] = new Player(client.id);
+    let player = new Player(client.id);
+    this.players[client.id] = player;
+    console.log(generatePersonImagePrompt(player))
     this.sockets[client.id] = client;
     this.updateGameStates();
   }

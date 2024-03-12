@@ -3,9 +3,9 @@ import Game from '../Game';
 
 class Card {
   public id: number;
-  scheme: CardScheme;
-  show: boolean;
-  private extra: any = null;
+  public scheme: CardScheme;
+  public show: boolean;
+  public extra: any = null;
 
   private constructor(scheme: CardScheme, show: boolean = false) {
     this.scheme = scheme;
