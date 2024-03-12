@@ -1,5 +1,5 @@
 import { SubscribeMessage, WebSocketGateway, WebSocketServer, OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect } from '@nestjs/websockets';
-import game from './game'
+import games from './games'
 import {Server} from 'socket.io'
 
 @WebSocketGateway(81, { cors: true })
@@ -16,33 +16,33 @@ export class AppGateway
   handleDemonstration(client: any, payload: any) {
     console.log('demonstration payload: ' + payload);
     if(!payload){
-      game.demonstrate(null, null, null);
+      games.getGame(0).demonstrate(null, null, null);
       return;
     }
     let type = payload.type;
     delete payload.type;
-    game.demonstrate(client.id, type, payload);
+    games.getGame(0).demonstrate(client.id, type, payload);
   }
 
   @SubscribeMessage('nickChanged')
   handleNickChanged(client: any, payload: any) {
     console.log('nickChanged payload: ' + payload);
-    game.changeName(client.id, payload.new_name);
+    games.getGame(0).changeName(client.id, payload.new_name);
   }
 
   async handleConnection(client: any) {
     const { sockets } = this.io.sockets;
     console.log('Somepony (id=' + client.id + ') just connected.');
-    game.regPlayer(client);
+    games.getGame(0).regPlayer(client);
     console.log(
-      'There are ' + Object.keys(game.players).length + ' players now.',
+      'There are ' + Object.keys(games.getGame(0).players).length + ' players now.',
     );
   }
   async handleDisconnect(client: any) {
     console.log('somepony just disconnected.');
-    game.unregPlayer(client.id);
+    games.getGame(0).unregPlayer(client.id);
     console.log(
-      'There are ' + Object.keys(game.players).length + ' players now.',
+      'There are ' + Object.keys(games.getGame(0).players).length + ' players now.',
     );
   }
 }

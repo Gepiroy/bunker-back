@@ -1,6 +1,5 @@
-import game from './game';
-import cards from './cards';
-import Card from './Card';
+import games from './games';
+import Card from './cards/Card';
 export default class Player {
   private id: string;
   public name: string;
@@ -15,7 +14,8 @@ export default class Player {
   }
 
   fillCards() {
-    this.cards['personality'] = [cards.genRandPersonCard()]
+    let game = games.getGame(0)
+    this.cards['personality'] = [game.world.genRandPersonCard(game)]
     let list = [
       'professions',
       'hobbies',
@@ -25,12 +25,12 @@ export default class Player {
       'facts',
     ];
     list.forEach((name) => {
-      this.cards[name] = [new Card(cards.random(cards[name]))];
+      this.cards[name] = [Card.createCard(game, game.world.random(game.world.card_schemes[name]))];
     });
   }
 
   showCard(card: Card) {
     card.show = true;
-    game.updateGameStates();
+    games.getGame(0).updateGameStates();
   }
 }

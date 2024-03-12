@@ -1,22 +1,31 @@
-import Card from './Card';
-import cards from './cards';
+import Card from './cards/Card';
 import Player from './Player';
+import world from '@/app/worlds/worldDefault';
 
-class Game {
+export default class Game {
+  public world = world;
+  public cards: Card[] = [];
   private game_state = {
-    apocalypse: new Card(cards.random(cards.apocalypses), true),
+    apocalypse: Card.createCard(
+      this,
+      world.random(world.card_schemes.apocalypses),
+      true,
+    ),
     bunker_modificators: [
-      new Card(cards.random(cards.bunker_modificators), true),
+      Card.createCard(
+        this,
+        world.random(world.card_schemes.bunker_modificators),
+        true,
+      ),
     ],
     demonstration: {
       type: null,
       by: null,
-      extra: null
-    }
+      extra: null,
+    },
   };
   public players = {};
   public sockets = {};
-  public cards = [];
   regPlayer(client: any) {
     this.players[client.id] = new Player(client.id);
     this.sockets[client.id] = client;
@@ -61,12 +70,12 @@ class Game {
   public updateGameStates() {
     this.emitToEveryone('game-state', (id) => this.getGameState(id));
   }
-  public demonstrate(by: string | null, type: string | null, extra: any){
+  public demonstrate(by: string | null, type: string | null, extra: any) {
     this.game_state.demonstration.type = type;
     this.game_state.demonstration.by = by;
     this.game_state.demonstration.extra = extra;
     console.log(this.game_state.demonstration);
-    this.emitToEveryone('demonstration', this.game_state.demonstration)
+    this.emitToEveryone('demonstration', this.game_state.demonstration);
   }
   public showCard(by: string, card_id: number) {
     let card = Card.getCard(card_id);
@@ -82,7 +91,3 @@ class Game {
     this.updateGameStates();
   }
 }
-
-const instance = new Game();
-
-export default instance;
