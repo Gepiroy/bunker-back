@@ -23,20 +23,10 @@ export default class World {
       Педофил: 0.05,
     };
     let scope = Math.random();
-    console.log('orientation scope: ' + scope);
     for (let key of Object.keys(chances)) {
       scope -= chances[key];
-      console.log(
-        'after -' +
-          chances[key] +
-          ' from ' +
-          key +
-          ', orientation scope: ' +
-          scope,
-      );
       if (scope <= 0) {
         orientation = key;
-        console.log('setted orientation to ' + key);
         break;
       }
     }

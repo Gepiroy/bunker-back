@@ -1,5 +1,5 @@
-import CardScheme from '@/app/CardScheme';
-import CardType from '@/app/CardType';
+import CardScheme from '@/app/cards/CardScheme';
+import CardType from '@/app/cards/CardType';
 
 export default class CardSchemes {
   public static PersonCardScheme = new CardScheme(CardType.Personality, '', '');

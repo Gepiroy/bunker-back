@@ -1,4 +1,4 @@
-import CardScheme from '../CardScheme';
+import CardScheme from './CardScheme';
 import Game from '../Game';
 
 class Card {

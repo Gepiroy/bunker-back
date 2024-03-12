@@ -36,24 +36,23 @@ export default class Game {
     delete this.sockets[id];
     this.updateGameStates();
   }
-  getGameState(id: string) {
+  getGameState(player_id: string) {
     let others = JSON.parse(JSON.stringify(this.players));
-    //delete others[id]; //Удалять себя... Не нужно.
-    for (let user_key in others) {
-      let user = others[user_key];
-      for (let type_of_cards in user.cards) {
-        let cards_of_type = user.cards[type_of_cards];
+    for (let other_player_id in others) {
+      let other_player = others[other_player_id];
+      for (let type_of_cards in other_player.cards) {
+        let cards_of_type = other_player.cards[type_of_cards];
         for (let card_id in cards_of_type) {
           let card = cards_of_type[card_id];
           if (!card.show)
-            others[user_key].cards[type_of_cards].splice([card_id], 1);
+            others[other_player_id].cards[type_of_cards].splice([card_id], 1);
         }
       }
     }
 
     return {
       game_state: this.game_state,
-      you: this.players[id],
+      you: this.players[player_id],
       others: others,
     };
   }
