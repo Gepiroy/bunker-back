@@ -9,8 +9,6 @@ export class AppGateway
 {
   @WebSocketServer() io: Server;
 
-  
-
   afterInit(server: any) {
     console.log('initialized, alive.');
   }
@@ -40,14 +38,20 @@ export class AppGateway
 
   @SubscribeMessage('vote')
   handleVote(client: any, payload: any) {
-    let player = players.getPlayer(client)
-    player.getGame().vote(player.id, payload.id)
+    let player = players.getPlayer(client);
+    player.getGame().vote(player.id, payload.id);
+  }
+
+  @SubscribeMessage('end-stage')
+  handleEndStage(client: any, payload: any) {
+    let player = players.getPlayer(client);
+    player.getGame().game_stage.end();
   }
 
   async handleConnection(client: any) {
     const { sockets } = this.io.sockets;
     console.log('Somepony (socket id=' + client.id + ') just connected.');
-    players.regPlayer(client, games.getGame(0).regPlayer(client))
+    players.regPlayer(client, games.getGame(0).regPlayer(client));
     console.log(
       'There are ' +
         Object.keys(games.getGame(0).players).length +

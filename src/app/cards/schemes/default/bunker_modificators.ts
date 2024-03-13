@@ -97,4 +97,58 @@ export default [
     'Сейф с деньгами',
     'В бункере есть сейф, набитый пачками денег.',
   ),
+
+  new CardScheme(
+    CardType.BunkerModificator,
+    'Бункер миллионера',
+    'Этот бункер наполнен дорогой мебелью',
+  ),
+
+  new CardScheme(
+    CardType.BunkerModificator,
+    'МЕТАЛ!!!',
+    'В бункере есть огромное собрание музыки в жанре METAL!',
+  ),
+
+  new CardScheme(
+    CardType.BunkerModificator,
+    'Аллигатор',
+    'В бункере завелся аллигатор... Как он сюда попал?!',
+  ),
+
+  new CardScheme(
+    CardType.BunkerModificator,
+    'Кинотеатр',
+    'В бункере есть огромный домашний кинотеатр',
+  ),
+
+  new CardScheme(
+    CardType.BunkerModificator,
+    'Странная комната',
+    'В бункере есть пыточная камера',
+  ),
+
+  new CardScheme(
+    CardType.BunkerModificator,
+    'Заключённые',
+    'Бункер строили заключённые. Сейчас там лежат тела, их инструменты и оружие надзирателей.',
+  ),
+
+  new CardScheme(
+    CardType.BunkerModificator,
+    'Странная комната',
+    'В бункере есть комната наполненная резиновыми уточками',
+  ),
+
+  new CardScheme(
+    CardType.BunkerModificator,
+    'Странная комната',
+    'В бункере есть... Нефтеперерабатывающий завод?!',
+  ),
+
+  new CardScheme(
+    CardType.BunkerModificator,
+    'Биолаборатория',
+    'В бункере нашли биолабораторию. Зачем она тут?',
+  ),
 ];

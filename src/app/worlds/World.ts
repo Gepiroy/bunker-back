@@ -3,11 +3,18 @@ import Card from '../cards/Card';
 import CardSchemes from '../cards/schemes/CardSchemes';
 
 export default class World {
-  public card_schemes : CardSchemes;
+  public card_schemes: CardSchemes;
   public person_nations: string[];
 
   public random(array: any[]): any {
     return array[Math.floor(Math.random() * array.length)];
+  }
+
+  public pickOne(array: any[]): any {
+    let index = Math.floor(Math.random() * array.length);
+    let picked = array[index]
+    delete array[index]
+    return picked;
   }
 
   public genRandPersonCard(game: Game): Card {

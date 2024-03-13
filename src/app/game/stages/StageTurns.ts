@@ -20,8 +20,7 @@ export default class StageTurns extends GameStage {
     while (this.nextIndex < this.playersCached.length) {
       this.currentPlayer = this.playersCached[this.nextIndex++];
       if (!this.getGame().players[this.currentPlayer.id]) continue;
-      this.getGame().updateGameStates();
-      console.log("Now it's " + this.currentPlayer.name + "'s turn.");
+      this.getGame().updateGameStage();
       return;
     }
     this.end();

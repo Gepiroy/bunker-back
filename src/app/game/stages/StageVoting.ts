@@ -17,6 +17,7 @@ export default class StageVoting extends GameStage {
 
   public vote(who: string, target: string) {
     this.votes[who] = target;
+    this.getGame().updateGameStage();
   }
 
   onStart() {}
