@@ -1,7 +1,5 @@
-import Player from '@/app/Player';
 import GameStage from './GameStage';
 import Game from '@/app/Game';
-import StageTurns from './StageTurns';
 
 export default class StageVoting extends GameStage {
   private nextIndex = 0;
@@ -10,9 +8,11 @@ export default class StageVoting extends GameStage {
   constructor(game: Game) {
     super(game, 'voting', 0);
     //this.currentPlayer = game.players[0]
-    for (let player_id of Object.keys(game.players)) {
+    for (let player_id in game.players) {
       this.votes[player_id] = player_id; //По умолчанию все голосуют за себя.
     }
+    console.log('votes from stageVoting: ')
+    console.log(this.votes)
   }
 
   public vote(who: string, target: string) {

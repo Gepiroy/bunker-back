@@ -80,15 +80,12 @@ export default class Game {
     console.log('updating whole game states #' + ++Game.updates);
     this.emitToEveryone('game-state', (id) => this.getGameState(id));
   }
-  public demonstrate(
-    by: string | null,
-    type: string | null,
-    extra: any
-  ) {
+  public demonstrate(by: string | null, type: string | null, extra: any) {
     let dem = this.game_state.demonstration;
-    if(type==null){
+    if (type == null) {
       if (dem.type == 'show-card' && this.game_stage instanceof StageTurns) {
-        (this.game_stage as StageTurns).nextPlayer();
+        if (this.cards[dem.extra.card_id].scheme.type != CardType.Fact)
+          (this.game_stage as StageTurns).nextPlayer();
       }
     }
 
@@ -100,7 +97,7 @@ export default class Game {
       let card = this.cards[extra.card_id];
       extra.cardData = card;
       card.show = true;
-      if(card.scheme.type==CardType.Fact){
+      if (card.scheme.type == CardType.Fact) {
         //delete this.players[by].cards[this.players[by].cards.indexOf(card)]
         delete this.players[by].cards[card];
         this.game_state.facts.push(card);
@@ -108,7 +105,7 @@ export default class Game {
       this.updateGameStates();
     }
 
-    console.log('current dem:',dem);
+    console.log('current dem:', dem);
 
     this.emitToEveryone('demonstration', this.game_state.demonstration);
   }
@@ -121,22 +118,23 @@ export default class Game {
     this.nextRound();
   }
 
-  public setStage(stage: GameStage, endPrevious=false) {
-    if(endPrevious)this.game_stage?.end();
+  public setStage(stage: GameStage, endPrevious = false) {
+    if (endPrevious) this.game_stage?.end();
     this.game_stage = stage;
     stage.start();
     this.updateGameStates();
   }
 
-  public nextRound(){
+  public nextRound() {
     console.log('Round #' + ++this.game_state.round);
     this.setStage(new StageTurns(this));
   }
 
-  public vote(voter_id:string, target_id:string){
-    if(this.game_stage instanceof StageVoting){
+  public vote(voter_id: string, target_id: string) {
+    if (this.game_stage instanceof StageVoting) {
       let stage = this.game_stage as StageVoting;
-      stage.vote(voter_id, target_id)
+      stage.vote(voter_id, target_id);
+      this.updateGameStates();
     }
   }
 }
