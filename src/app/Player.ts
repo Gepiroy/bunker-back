@@ -1,6 +1,7 @@
 import games from './games';
 import Card from './cards/Card';
 import Game from './Game';
+import CardType from './cards/CardType';
 export default class Player {
   #game: Game;
   public readonly id: string;
@@ -45,7 +46,7 @@ export default class Player {
       return {
         id: this.id,
         name: this.name,
-        cards: this.cards.filter((card) => card.show),
+        cards: this.cards.filter((card) => card.show && card.scheme.type != CardType.Fact),
         isCandidate: this.isCandidate,
       };
     }

@@ -1,4 +1,5 @@
 import Card from './cards/Card';
+import CardType from './cards/CardType';
 import GameStage from './game/stages/GameStage';
 import StageTurns from './game/stages/StageTurns';
 import StageVoting from './game/stages/StageVoting';
@@ -24,6 +25,7 @@ export default class Game {
         true,
       ),
     ],
+    facts: [] as Card[],
     demonstration: {
       type: null,
       by: null,
@@ -95,9 +97,14 @@ export default class Game {
     dem.extra = extra;
 
     if (type == 'show-card') {
-      extra.cardData = this.cards[extra.card_id];
       let card = this.cards[extra.card_id];
+      extra.cardData = card;
       card.show = true;
+      if(card.scheme.type==CardType.Fact){
+        //delete this.players[by].cards[this.players[by].cards.indexOf(card)]
+        delete this.players[by].cards[card];
+        this.game_state.facts.push(card);
+      }
       this.updateGameStates();
     }
 
