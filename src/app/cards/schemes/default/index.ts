@@ -9,7 +9,6 @@ import professions from "./professions";
 import CardSchemes from "../CardSchemes";
 
 function createSchemes(): CardSchemes {
-  console.log('Эта хрень запустится только один раз, да?')
   let schemes = new CardSchemes()
   schemes.apocalypses = apocalypses;
   schemes.professions = professions;
@@ -19,6 +18,10 @@ function createSchemes(): CardSchemes {
   schemes.personal_facts = personal_facts;
   schemes.facts = facts;
   schemes.bunker_modificators = bunker_modificators;
+  console.log("Using scheme:");
+  for(let key of Object.keys(schemes)){
+    console.log('  '+key+": "+schemes[key].length)
+  }
   return schemes;
 };
 
