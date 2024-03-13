@@ -1,17 +1,24 @@
 import games from './games';
 import Card from './cards/Card';
+import Game from './Game';
 export default class Player {
-  private id: string;
+  #game: Game;
+  public readonly id: string;
   public name: string;
   private static index = 0;
   public isCandidate = true;
 
   cards: Card[] = [];
 
-  constructor(id: string) {
+  constructor(game: Game, id: string) {
+    this.#game = game;
     this.id = id;
     this.name = 'Игрок ' + ++Player.index;
     this.fillCards();
+  }
+
+  public getGame(): Game {
+    return this.#game;
   }
 
   fillCards() {

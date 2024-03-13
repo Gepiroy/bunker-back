@@ -1,4 +1,8 @@
 import Card from './cards/Card';
+import GameStage from './game/stages/GameStage';
+import StageTurns from './game/stages/StageTurns';
+import StageVoting from './game/stages/StageVoting';
+import StageWaiting from './game/stages/StageWaiting';
 import Player from './Player';
 import world from '@/app/worlds/worldDefault';
 
@@ -6,7 +10,8 @@ export default class Game {
   public world = world;
   public cards: Card[] = [];
 
-  private game_state = {
+  public game_state = {
+    round: 0,
     apocalypse: Card.createCard(
       this,
       world.random(world.card_schemes.apocalypses),
@@ -25,21 +30,24 @@ export default class Game {
       extra: null,
     },
   };
+  public game_stage: GameStage = new StageWaiting(this);
   public players = {};
   public sockets = {};
-  regPlayer(client: any) {
-    let player = new Player(client.id);
+  regPlayer(client: any): Player {
+    let player = new Player(this, client.id);
     this.players[client.id] = player;
     //let prompt = generatePersonImagePrompt(player);
     //sendToLLM(prompt);
     //console.log(prompt)
     this.sockets[client.id] = client;
     this.updateGameStates();
+    return player;
   }
   unregPlayer(id: string) {
     delete this.players[id];
     delete this.sockets[id];
-    if(this.game_state.demonstration.by == id)this.demonstrate(null, null, null, true);
+    if (this.game_state.demonstration.by == id)
+      this.demonstrate(null, null, null);
     this.updateGameStates();
   }
   getGameState(your_id: string) {
@@ -51,6 +59,7 @@ export default class Game {
 
     return {
       game_state: this.game_state,
+      game_stage: this.game_stage,
       you: this.players[your_id].formData(true),
       others: others,
     };
@@ -64,35 +73,63 @@ export default class Game {
       );
     }
   }
-
+  private static updates = 0;
   public updateGameStates() {
+    console.log('updating whole game states #' + ++Game.updates);
     this.emitToEveryone('game-state', (id) => this.getGameState(id));
   }
-  public demonstrate(by: string | null, type: string | null, extra: any, silent:boolean = false) {
-    this.game_state.demonstration.type = type;
-    this.game_state.demonstration.by = by;
+  public demonstrate(
+    by: string | null,
+    type: string | null,
+    extra: any
+  ) {
+    let dem = this.game_state.demonstration;
+    if(type==null){
+      if (dem.type == 'show-card' && this.game_stage instanceof StageTurns) {
+        (this.game_stage as StageTurns).nextPlayer();
+      }
+    }
+
+    dem.type = type;
+    dem.by = by;
+    dem.extra = extra;
 
     if (type == 'show-card') {
       extra.cardData = this.cards[extra.card_id];
+      let card = this.cards[extra.card_id];
+      card.show = true;
+      this.updateGameStates();
     }
 
-    this.game_state.demonstration.extra = extra;
+    console.log('current dem:',dem);
 
-    console.log(this.game_state.demonstration);
-
-    if(!silent)this.emitToEveryone('demonstration', this.game_state.demonstration);
-  }
-  public showCard(by: string, card_id: number) {
-    let card = this.cards[card_id];
-    card.show = true;
-    this.updateGameStates();
-    this.emitToEveryone('card-shown', { by: by, cardData: card });
-  }
-  public endShowCard() {
-    this.emitToEveryone('card-show-ended', '');
+    this.emitToEveryone('demonstration', this.game_state.demonstration);
   }
   public changeName(player_id: string, new_name: string) {
     this.players[player_id].name = new_name;
     this.updateGameStates();
+  }
+
+  public startTheGame() {
+    this.nextRound();
+  }
+
+  public setStage(stage: GameStage, endPrevious=false) {
+    if(endPrevious)this.game_stage?.end();
+    this.game_stage = stage;
+    stage.start();
+    this.updateGameStates();
+  }
+
+  public nextRound(){
+    console.log('Round #' + ++this.game_state.round);
+    this.setStage(new StageTurns(this));
+  }
+
+  public vote(voter_id:string, target_id:string){
+    if(this.game_stage instanceof StageVoting){
+      let stage = this.game_stage as StageVoting;
+      stage.vote(voter_id, target_id)
+    }
   }
 }
