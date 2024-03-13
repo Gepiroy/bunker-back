@@ -35,7 +35,7 @@ export default class Player {
     ];
     list.forEach((name) => {
       this.cards.push(
-        Card.createCard(game, game.world.random(game.world.card_schemes[name])),
+        Card.createCard(game, game.world.pickOne(game.world.card_schemes[name])),
       );
     });
   }

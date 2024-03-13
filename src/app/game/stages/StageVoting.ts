@@ -1,3 +1,4 @@
+import players from '@/app/players';
 import GameStage from './GameStage';
 import Game from '@/app/Game';
 
@@ -24,6 +25,23 @@ export default class StageVoting extends GameStage {
   onEnd() {
     let game = this.getGame();
     //Пока что пусть всегда идёт дальше.
+    let winners = {}
+    for(let key in this.votes){
+      if (winners[this.votes[key]]) winners[this.votes[key]]++;
+      else winners[this.votes[key]] = 1;
+    }
+    console.log('winners is', winners);
+    let winner = null;
+    let max = 0;
+    for (let key in winners) {
+      if(winners[key]>max){
+        winner = key
+        max = winners[key]
+      }
+    }
+    console.log('winner is', winner)
+    let player = players.getByPlayerId(winner)
+    player.isCandidate = false;
     game.nextRound();
   }
 }

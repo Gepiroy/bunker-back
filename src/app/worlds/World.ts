@@ -13,7 +13,7 @@ export default class World {
   public pickOne(array: any[]): any {
     let index = Math.floor(Math.random() * array.length);
     let picked = array[index]
-    delete array[index]
+    array.splice(index, 1)
     return picked;
   }
 

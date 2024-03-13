@@ -8,6 +8,13 @@ class Players {
     return this.players[this.toId(socket)];
   }
 
+  public getByPlayerId(playerId: string): Player {
+    for(let player of Object.values(this.players)){
+      if((player as Player).id==playerId)return player as Player;
+    }
+    throw new Error();
+  }
+
   private toId(socket: any): string {
     return typeof socket === 'string' ? socket : socket.id;
   }
@@ -17,7 +24,7 @@ class Players {
   }
 
   public unregPlayer(socket: any) {
-    let id = this.toId(socket)
+    let id = this.toId(socket);
     this.getPlayer(id).getGame().unregPlayer(id);
     delete this.players[this.toId(id)];
   }

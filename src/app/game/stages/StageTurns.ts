@@ -19,7 +19,7 @@ export default class StageTurns extends GameStage {
   public nextPlayer() {
     while (this.nextIndex < this.playersCached.length) {
       this.currentPlayer = this.playersCached[this.nextIndex++];
-      if (!this.getGame().players[this.currentPlayer.id]) continue;
+      if (!this.getGame().players[this.currentPlayer.id] || !this.currentPlayer.isCandidate) continue;
       this.getGame().updateGameStage();
       return;
     }
