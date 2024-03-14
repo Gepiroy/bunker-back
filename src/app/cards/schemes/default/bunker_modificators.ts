@@ -147,12 +147,6 @@ export default [
 
   new CardScheme(
     CardType.BunkerModificator,
-    'Странная комната',
-    'В бункере есть... Нефтеперерабатывающий завод?!',
-  ),
-
-  new CardScheme(
-    CardType.BunkerModificator,
     'Биолаборатория',
     'В бункере нашли биолабораторию. Зачем она тут?',
   ),

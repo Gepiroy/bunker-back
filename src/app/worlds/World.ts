@@ -22,12 +22,12 @@ export default class World {
     let gender = Math.random() < 0.5 ? 'male' : 'female';
     let orientation = 'Натурал';
     const chances = {
-      Гомосексуал: 0.05,
-      Бисексуал: 0.05,
-      Асексуал: 0.05,
-      Зоофил: 0.05,
-      Некрофил: 0.05,
-      Педофил: 0.05,
+      Гомосексуал: 0.07,
+      Бисексуал: 0.07,
+      Асексуал: 0.07,
+      Зоофил: 0.03,
+      Некрофил: 0.03,
+      Педофил: 0.03,
     };
     let scope = Math.random();
     for (let key of Object.keys(chances)) {

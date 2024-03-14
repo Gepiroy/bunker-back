@@ -1,7 +1,17 @@
-import { SubscribeMessage, WebSocketGateway, WebSocketServer, OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect } from '@nestjs/websockets';
-import games from './games'
-import players from './players'
-import {Server} from 'socket.io'
+import {
+  SubscribeMessage,
+  WebSocketGateway,
+  WebSocketServer,
+  OnGatewayInit,
+  OnGatewayConnection,
+  OnGatewayDisconnect,
+} from '@nestjs/websockets';
+import games from './games';
+import players from './players';
+import { Server } from 'socket.io';
+import StageWaiting from './game/stages/StageWaiting';
+import StageVoting from './game/stages/StageVoting';
+import StageTurns from './game/stages/StageTurns';
 
 @WebSocketGateway(81, { cors: true })
 export class AppGateway
@@ -48,14 +58,27 @@ export class AppGateway
     player.getGame().game_stage.end();
   }
 
-  async handleConnection(client: any) {
-    const { sockets } = this.io.sockets;
+  @SubscribeMessage('skip-turn')
+  handleSkipTurn(client: any, payload: any) {
+    let player = players.getPlayer(client);
+    if (player.isAdmin()) {
+      let stage = player.getGame().game_stage;
+      if(stage instanceof StageTurns){
+        (stage as StageTurns).nextPlayer();
+      }
+    }
+  }
+
+  async handleConnection(client) {
     console.log('Somepony (socket id=' + client.id + ') just connected.');
-    players.regPlayer(client, games.getGame(0).regPlayer(client));
+    let game = games.getGame(0);
+    if (!(game.game_stage instanceof StageWaiting)) {
+      client.disconnect();
+      return;
+    }
+    players.regPlayer(client, game.regPlayer(client));
     console.log(
-      'There are ' +
-        Object.keys(games.getGame(0).players).length +
-        ' players now.',
+      'There are ' + Object.keys(game.players).length + ' players now.',
     );
   }
   async handleDisconnect(client: any) {

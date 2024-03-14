@@ -15,7 +15,6 @@ export default class Player {
     this.#game = game;
     this.id = id;
     this.name = 'Игрок ' + ++Player.index;
-    this.fillCards();
   }
 
   public getGame(): Game {
@@ -60,5 +59,9 @@ export default class Player {
   showCard(card: Card) {
     card.show = true;
     games.getGame(0).updateGameStates();
+  }
+
+  public isAdmin():boolean{
+    return this.getGame().getAdmin() == this;
   }
 }

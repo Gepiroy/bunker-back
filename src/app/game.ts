@@ -8,26 +8,22 @@ import Player from './Player';
 import world from '@/app/worlds/worldDefault';
 
 const settingsDev = {
-  fastShow: true
-}
+  fastShow: true,
+};
 
 const settingsPlay = {
   fastShow: false,
 };
 
 export default class Game {
-  public static readonly settings = settingsDev
+  public static readonly settings = settingsDev;
 
   public world = world;
   public cards: Card[] = [];
 
   public game_state = {
     round: 0,
-    apocalypse: Card.createCard(
-      this,
-      world.random(world.card_schemes.apocalypses),
-      true,
-    ),
+    apocalypse: null as Card,
     bunker_modificators: [] as Card[],
     facts: [] as Card[],
     demonstration: {
@@ -71,6 +67,21 @@ export default class Game {
     };
   }
 
+  public setAndShowApocalypse() {
+    this.game_state.apocalypse = Card.createCard(
+      this,
+      world.random(world.card_schemes.apocalypses),
+      true,
+    );
+    this.demonstrate(this.getAdmin().id, 'show-card', {
+      card_id: this.game_state.apocalypse.id,
+    });
+  }
+
+  public getAdmin(): Player {
+    return Object.values(this.players)[0] as Player;
+  }
+
   public emitToEveryone(message: string, content: any | ((id: string) => any)) {
     for (let id in this.sockets) {
       this.sockets[id].emit(
@@ -90,12 +101,15 @@ export default class Game {
   public demonstrate(by: string | null, type: string | null, extra: any) {
     let dem = this.game_state.demonstration;
     if (type == null) {
-      if (dem.type == 'show-card' && this.game_stage instanceof StageTurns) {
-        if (
-          dem.by != 'server' &&
-          this.cards[dem.extra.card_id].scheme.type != CardType.Fact
-        )
-          (this.game_stage as StageTurns).nextPlayer();
+      if (dem.type == 'show-card') {
+        if (this.game_stage instanceof StageTurns) {
+          if (
+            dem.by != 'server' &&
+            this.cards[dem.extra.card_id].scheme.type != CardType.Fact
+          )
+            (this.game_stage as StageTurns).nextPlayer();
+        }
+        if (this.game_stage instanceof StageWaiting) this.nextRound();
       }
     }
 
@@ -125,7 +139,8 @@ export default class Game {
   }
 
   public startTheGame() {
-    this.nextRound();
+    this.setAndShowApocalypse();
+    (Object.values(this.players) as Player[]).forEach(player => player.fillCards())
   }
 
   public setStage(stage: GameStage, endPrevious = false) {
@@ -142,12 +157,15 @@ export default class Game {
       world.pickOne(world.card_schemes.bunker_modificators),
     );
     this.game_state.bunker_modificators.push(card);
-    setTimeout(()=>{
+    setTimeout(() => {
       this.demonstrate('server', 'show-card', { card_id: card.id });
-      setTimeout(() => {
-        this.demonstrate(null, null, null);
-      }, Game.settings.fastShow?500:5000);
-    }, 100)
+      setTimeout(
+        () => {
+          this.demonstrate(null, null, null);
+        },
+        Game.settings.fastShow ? 500 : 5000,
+      );
+    }, 100);
     this.setStage(new StageTurns(this));
   }
 
