@@ -107,4 +107,59 @@ export default [
     '10 рулонов туалетной бумаги',
     'Теперь у тебя всегда есть чистые тряпки для рук и лица на случай если вдруг кончится вода или еда',
   ),
+  new CardScheme(CardType.Backpack, 'Тарелка', 'Единственная тарелка'),
+
+  new CardScheme(
+    CardType.Backpack,
+    'Набор для выживания',
+    'Небольшой топорик, бинт, 2 пакетика еды, 75 ампул анальгина, 5 упаковок спичек, горящих под водой и целое море разноцветных канцелярских принадлежностей',
+  ),
+
+  new CardScheme(CardType.Backpack, 'Карты', 'Карты игральные 54 шт'),
+
+  new CardScheme(CardType.Backpack, 'Карта', 'Карта местности около бункера'),
+
+  new CardScheme(
+    CardType.Backpack,
+    'Пакет из пятёрочки',
+    'Просто пластиковый пакет',
+  ),
+
+  new CardScheme(
+    CardType.Backpack,
+    'Коробка с рисом',
+    'Целая коробка набитая мисками риса',
+  ),
+
+  new CardScheme(
+    CardType.Backpack,
+    'Масло машинное',
+    'Бутылка машинного масла',
+  ),
+
+  new CardScheme(CardType.Backpack, 'Камень', 'Камень. Его зовут Болдер'),
+
+  new CardScheme(CardType.Backpack, 'Бензопила', 'Техасская резня бензопилой'),
+
+  new CardScheme(
+    CardType.Backpack,
+    'Айфон',
+    'Новый супер айфон эпл модели 34 эс',
+  ),
+
+  new CardScheme(
+    CardType.Backpack,
+    'Банка рассола',
+    'По приданиям говорят что снимает похмелье',
+  ),
+
+  new CardScheme(CardType.Backpack, 'Водка', 'Пара бутылок водки'),
+
+  new CardScheme(
+    CardType.Backpack,
+    'Хирургические инструменты',
+    'Инструменты для хирургических операций',
+  ),
+
+  new CardScheme(CardType.Backpack, 'Череп', 'Человеческий череп'),
 ];

@@ -72,4 +72,59 @@ export default [
     'Пекарь',
     'Ты пёк хлеб и булочки в своей пекарне',
   ),
+  new CardScheme(CardType.Profession, 'Безработный', 'Ты безработный'),
+
+  new CardScheme(
+    CardType.Profession,
+    'Бомж',
+    'Твоя основная занятость - ссать в подъездах и у входов в бункер',
+  ),
+
+  new CardScheme(
+    CardType.Profession,
+    'Гастарбайтер',
+    'Рафшан и джамшут твои братья на век',
+  ),
+
+  new CardScheme(
+    CardType.Profession,
+    'Эпидемиолог',
+    'Ты занимаешься изучением и прогнозированием эпидемий',
+  ),
+
+  new CardScheme(
+    CardType.Profession,
+    'Океанолог',
+    'Ты человек который изучает воды морей и океанов',
+  ),
+
+  new CardScheme(
+    CardType.Profession,
+    'Дегустатор кормов',
+    'Ты понимаешь вкусы разных животных и пробуешь их корма на вкус',
+  ),
+
+  new CardScheme(
+    CardType.Profession,
+    'Долбежник',
+    'Ты мастер, обрабатывающий на станках различные детали',
+  ),
+
+  new CardScheme(CardType.Profession, 'Фитнес-тренер', 'Босс всия качалок'),
+
+  new CardScheme(
+    CardType.Profession,
+    'Заготовщик черни',
+    'Ты заготавливаешь сплавы (черни) серебра со свинцом и серой',
+  ),
+
+  new CardScheme(
+    CardType.Profession,
+    'Инспектор',
+    'Ты банкротишь компании за то, что они кого-то обидели',
+  ),
+
+  new CardScheme(CardType.Profession, 'Стрелок', 'Пол жизни ты провёл на башнях'),
+
+  new CardScheme(CardType.Profession, 'Электрик', '220 раз ударялся током, и пофигу'),
 ];
