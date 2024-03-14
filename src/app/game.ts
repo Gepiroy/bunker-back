@@ -7,7 +7,17 @@ import StageWaiting from './game/stages/StageWaiting';
 import Player from './Player';
 import world from '@/app/worlds/worldDefault';
 
+const settingsDev = {
+  fastShow: true
+}
+
+const settingsPlay = {
+  fastShow: false,
+};
+
 export default class Game {
+  public static readonly settings = settingsDev
+
   public world = world;
   public cards: Card[] = [];
 
@@ -136,7 +146,7 @@ export default class Game {
       this.demonstrate('server', 'show-card', { card_id: card.id });
       setTimeout(() => {
         this.demonstrate(null, null, null);
-      }, 5000);
+      }, Game.settings.fastShow?500:5000);
     }, 100)
     this.setStage(new StageTurns(this));
   }

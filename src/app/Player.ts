@@ -34,9 +34,12 @@ export default class Player {
       'facts',
     ];
     list.forEach((name) => {
-      this.cards.push(
-        Card.createCard(game, game.world.pickOne(game.world.card_schemes[name])),
+      let card = Card.createCard(
+        game,
+        game.world.pickOne(game.world.card_schemes[name]),
       );
+      if(!card.scheme)throw new Error('Undefined card scheme!');
+      this.cards.push(card);
     });
   }
 
@@ -46,7 +49,9 @@ export default class Player {
       return {
         id: this.id,
         name: this.name,
-        cards: this.cards.filter((card) => card.show && card.scheme.type != CardType.Fact),
+        cards: this.cards.filter(
+          (card) => card.show && card.scheme.type != CardType.Fact,
+        ),
         isCandidate: this.isCandidate,
       };
     }

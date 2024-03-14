@@ -14,6 +14,11 @@ export default [
   ),
   new CardScheme(
     CardType.BunkerModificator,
+    'Комары-мутанты',
+    'В бункере живут гигантские комары мутанты',
+  ),
+  new CardScheme(
+    CardType.BunkerModificator,
     'Мед. отсек',
     'В бункере оборудован медицинский отсек с операционным столом',
   ),
