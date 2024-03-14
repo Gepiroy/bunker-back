@@ -25,7 +25,9 @@ class Players {
 
   public unregPlayer(socket: any) {
     let id = this.toId(socket);
-    this.getPlayer(id).getGame().unregPlayer(id);
+    let player = this.getPlayer(id);
+    let game = player.getGame();
+    if(!game.started)game.unregPlayer(player.id);
     delete this.players[this.toId(id)];
   }
 }

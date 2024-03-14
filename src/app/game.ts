@@ -21,6 +21,8 @@ export default class Game {
   public world = world;
   public cards: Card[] = [];
 
+  public started = false;
+
   public game_state = {
     round: 0,
     apocalypse: null as Card,
@@ -119,6 +121,18 @@ export default class Game {
 
     if (type == 'show-card') {
       let card = this.cards[extra.card_id];
+      if (card.scheme.useAt != 'anyYourTurn') {
+        if (
+          this.game_state.round == 1 &&
+          card.scheme.type != CardType.Personality
+        )
+          return;
+        if (
+          this.game_state.round == 2 &&
+          card.scheme.type != CardType.Profession
+        )
+          return;
+      }
       extra.cardData = card;
       card.show = true;
       if (card.scheme.type == CardType.Fact) {
@@ -139,8 +153,11 @@ export default class Game {
   }
 
   public startTheGame() {
+    this.started = true;
     this.setAndShowApocalypse();
-    (Object.values(this.players) as Player[]).forEach(player => player.fillCards())
+    (Object.values(this.players) as Player[]).forEach((player) =>
+      player.fillCards(),
+    );
   }
 
   public setStage(stage: GameStage, endPrevious = false) {

@@ -82,4 +82,89 @@ export default [
     'Одиночка',
     'Ты не любишь быть в центре внимания и предпочитаешь проводить время в одиночестве - или даже с самим собой.',
   ),
+  new CardScheme(
+    CardType.PersonalFact,
+    'Дети',
+    'Ты очень любишь проводить время в компании детей',
+  ),
+
+  new CardScheme(
+    CardType.PersonalFact,
+    'Игры',
+    'Ты игроман со стажем более 15 лет',
+  ),
+
+  new CardScheme(
+    CardType.PersonalFact,
+    'Выпивка',
+    'Ты любишь выпивать крепкие спиртные напитки в свободное время',
+  ),
+
+  new CardScheme(
+    CardType.PersonalFact,
+    'Изменщик',
+    'Ты постоянно изменял своей второй половинке с одним из игроков',
+  ),
+
+  new CardScheme(
+    CardType.PersonalFact,
+    'Срок',
+    'Ты отматал десятилетний срок в тюрьме',
+  ),
+
+  new CardScheme(
+    CardType.PersonalFact,
+    'Ярик водила',
+    'Ты угадил в аварию когда впервые сел за автомобиль',
+  ),
+
+  new CardScheme(
+    CardType.PersonalFact,
+    'Трон',
+    'Ты соорудил в своём туалете настоящий тронный зал',
+  ),
+
+  new CardScheme(
+    CardType.PersonalFact,
+    'Школа',
+    'Ты ушёл из школы после 5 класса',
+  ),
+
+  new CardScheme(CardType.PersonalFact, 'Языки', 'Ты знаешь 5 разных языков'),
+
+  new CardScheme(
+    CardType.PersonalFact,
+    'Краска',
+    'Тебе нравится запах краски',
+  ),
+
+  new CardScheme(
+    CardType.PersonalFact,
+    'Страсть к "Химии"',
+    'Ты испытываешь влечение ко всяким химическим препаратам',
+  ),
+
+  new CardScheme(
+    CardType.PersonalFact,
+    'Лжец',
+    'Ты так хорошо врёшь, что никто этого и не заподозрит',
+  ),
+
+  new CardScheme(
+    CardType.PersonalFact,
+    'Выживальщик',
+    'Ты диванный мастер по выживанию',
+  ),
+
+  new CardScheme(
+    CardType.PersonalFact,
+    'Ориентированние',
+    'Ты знаешь что игрок выше тебя скрывает свою настоящую ориентацию',
+  ),
+
+  new CardScheme(
+    CardType.PersonalFact,
+    'Маньяк',
+    'Ты умный и изобретательный маньяк. Удачи',
+  ),
 ];

@@ -72,7 +72,7 @@ export class AppGateway
   async handleConnection(client) {
     console.log('Somepony (socket id=' + client.id + ') just connected.');
     let game = games.getGame(0);
-    if (!(game.game_stage instanceof StageWaiting)) {
+    if (game.started) {
       client.disconnect();
       return;
     }
