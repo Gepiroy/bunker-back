@@ -132,11 +132,7 @@ export default [
 
   new CardScheme(CardType.PersonalFact, 'Языки', 'Ты знаешь 5 разных языков'),
 
-  new CardScheme(
-    CardType.PersonalFact,
-    'Краска',
-    'Тебе нравится запах краски',
-  ),
+  new CardScheme(CardType.PersonalFact, 'Краска', 'Тебе нравится запах краски'),
 
   new CardScheme(
     CardType.PersonalFact,
@@ -166,5 +162,17 @@ export default [
     CardType.PersonalFact,
     'Маньяк',
     'Ты умный и изобретательный маньяк. Удачи',
+  ),
+
+  new CardScheme(
+    CardType.PersonalFact,
+    'Особые вкусы',
+    'Примерно раз в год ты ешь детей. Тебе это кажется вкусным, хоть и очень дорогим',
+  ),
+
+  new CardScheme(
+    CardType.PersonalFact,
+    'Династия',
+    'Когда-то давно ты принадлежал к очень богатой династии правителей',
   ),
 ];

@@ -32,7 +32,7 @@ export default class StageTurns extends GameStage {
   onEnd() {
     let game = this.getGame();
     let gameState = game.game_state;
-    if (gameState.round < 3) {
+    if (gameState.round < 2) {
       game.nextRound();
     } else {
       game.setStage(new StageVoting(game));

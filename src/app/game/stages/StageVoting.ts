@@ -1,4 +1,4 @@
-import players from '@/app/players';
+import Player from '@/app/Player';
 import GameStage from './GameStage';
 import Game from '@/app/Game';
 
@@ -10,13 +10,17 @@ export default class StageVoting extends GameStage {
     super(game, 'voting', 0);
     //this.currentPlayer = game.players[0]
     for (let player_id in game.players) {
-      this.votes[player_id] = player_id; //По умолчанию все голосуют за себя.
+      let player = this.getGame().players[player_id] as Player;
+      if(player.isCandidate) this.votes[player_id] = player_id; //По умолчанию все голосуют за себя.
     }
     console.log('votes from stageVoting: ')
     console.log(this.votes)
   }
 
   public vote(who: string, target: string) {
+    let playerWho = this.getGame().players[who] as Player;
+    let playerTarget = this.getGame().players[target] as Player;
+    if(!playerWho.isCandidate || !playerTarget.isCandidate) return;
     this.votes[who] = target;
     this.getGame().updateGameStage();
   }
@@ -40,7 +44,7 @@ export default class StageVoting extends GameStage {
       }
     }
     console.log('winner is', winner)
-    let player = players.getByPlayerId(winner)
+    let player = this.getGame().players[winner]
     player.isCandidate = false;
     game.nextRound();
   }

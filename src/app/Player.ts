@@ -8,6 +8,7 @@ export default class Player {
   public name: string;
   private static index = 0;
   public isCandidate = true;
+  public currentSocketId: string | null;
 
   cards: Card[] = [];
 
@@ -37,7 +38,7 @@ export default class Player {
         game,
         game.world.pickOne(game.world.card_schemes[name]),
       );
-      if(!card.scheme)throw new Error('Undefined card scheme!');
+      if (!card.scheme) throw new Error('Undefined card scheme!');
       this.cards.push(card);
     });
   }
@@ -61,7 +62,7 @@ export default class Player {
     games.getGame(0).updateGameStates();
   }
 
-  public isAdmin():boolean{
+  public isAdmin(): boolean {
     return this.getGame().getAdmin() == this;
   }
 }

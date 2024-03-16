@@ -20,14 +20,17 @@ class Players {
   }
 
   public regPlayer(socket: any, player: Player) {
-    this.players[this.toId(socket)] = player;
+    let socket_id = this.toId(socket)
+    this.players[socket_id] = player;
+    player.currentSocketId = socket_id;
   }
 
   public unregPlayer(socket: any) {
     let id = this.toId(socket);
     let player = this.getPlayer(id);
     let game = player.getGame();
-    if(!game.started)game.unregPlayer(player.id);
+    player.currentSocketId = null;
+    game.unregPlayer(player.id);
     delete this.players[this.toId(id)];
   }
 }

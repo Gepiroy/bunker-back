@@ -1,4 +1,4 @@
-import card_schemes from '@/app/cards/schemes/default/index';
+import card_schemes from '@/app/cards/schemes/mlp/index';
 import World from './World';
 
 function createWorld(): World{

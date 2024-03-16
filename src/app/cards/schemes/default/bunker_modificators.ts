@@ -118,7 +118,7 @@ export default [
   new CardScheme(
     CardType.BunkerModificator,
     'Аллигатор',
-    'В бункере завелся аллигатор... Как он сюда попал?!',
+    'В бункере живёт домашний аллигатор',
   ),
 
   new CardScheme(
@@ -142,7 +142,7 @@ export default [
   new CardScheme(
     CardType.BunkerModificator,
     'Странная комната',
-    'В бункере есть комната наполненная резиновыми уточками',
+    'В бункере есть комната, наполненная резиновыми уточками',
   ),
 
   new CardScheme(

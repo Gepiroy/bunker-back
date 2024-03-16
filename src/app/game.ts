@@ -16,14 +16,16 @@ const settingsPlay = {
 };
 
 export default class Game {
-  public static readonly settings = settingsDev;
+  public static readonly settings = settingsPlay;
 
   public world = world;
   public cards: Card[] = [];
 
   public started = false;
 
+
   public game_state = {
+    admin: null as Player,
     round: 0,
     apocalypse: null as Card,
     bunker_modificators: [] as Card[],
@@ -40,6 +42,7 @@ export default class Game {
   regPlayer(client: any): Player {
     let player = new Player(this, client.id);
     this.players[client.id] = player;
+    if (this.game_state.admin == null) this.game_state.admin = player;
     //let prompt = generatePersonImagePrompt(player);
     //sendToLLM(prompt);
     //console.log(prompt)
@@ -47,9 +50,23 @@ export default class Game {
     this.updateGameStates();
     return player;
   }
+  setRandomAdmin() {
+    console.log('searching for new admin...');
+    for (let key in this.players) {
+      if (this.players[key].currentSocketId) {
+        this.game_state.admin = this.players[key];
+        console.log('new admin: ', this.game_state.admin);
+        return;
+      }
+    }
+  }
   unregPlayer(id: string) {
-    delete this.players[id];
+    if (!this.started) delete this.players[id];
     delete this.sockets[id];
+    if (this.game_state.admin.id == id) {
+      this.game_state.admin = null;
+      this.setRandomAdmin();
+    }
     if (this.game_state.demonstration.by == id)
       this.demonstrate(null, null, null);
     this.updateGameStates();
@@ -81,7 +98,7 @@ export default class Game {
   }
 
   public getAdmin(): Player {
-    return Object.values(this.players)[0] as Player;
+    return this.game_state.admin;
   }
 
   public emitToEveryone(message: string, content: any | ((id: string) => any)) {
@@ -121,7 +138,7 @@ export default class Game {
 
     if (type == 'show-card') {
       let card = this.cards[extra.card_id];
-      if (card.scheme.useAt != 'anyYourTurn') {
+      if (by!='server'&&card.scheme.useAt != 'anyYourTurn') {
         if (
           this.game_state.round == 1 &&
           card.scheme.type != CardType.Personality
