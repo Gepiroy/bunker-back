@@ -63,10 +63,19 @@ export class AppGateway
     let player = players.getPlayer(client);
     if (player.isAdmin()) {
       let stage = player.getGame().game_stage;
-      if(stage instanceof StageTurns){
+      if (stage instanceof StageTurns) {
         (stage as StageTurns).nextPlayer();
       }
     }
+  }
+
+  @SubscribeMessage('get-all-card-schemes')
+  handleGetAllCardSchemes(client: any, payload: any) {
+    console.log('Recieved socket about cardschemes.');
+    let player = players.getPlayer(client);
+    let game = player.getGame();
+    client.emit('all-card-schemes', game.world.card_schemes);
+    console.log('Send to client card schemes:', game.world.card_schemes);
   }
 
   async handleConnection(client) {

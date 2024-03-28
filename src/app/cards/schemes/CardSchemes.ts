@@ -10,5 +10,6 @@ export default class CardSchemes {
   public backpacks: CardScheme[];
   public personal_facts: CardScheme[];
   public facts: CardScheme[];
+  public abilities: CardScheme[];
   public bunker_modificators: CardScheme[];
 }
